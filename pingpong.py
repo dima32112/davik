@@ -39,17 +39,55 @@ display.set_caption("pingpong")
 color(27,27,27)
 game_mode = "play"
 
-class pong():
-    def __init__(self, pong_x, pong_y, pong_collide):
-        self.rect_x = pong_x
-        self.rect_y = pong_y
-        self.collide = pong_collide
+class pong(GameSprite):
+    def update(self):
+        self.rect_x += self.speed
+        self.rect_y += self.speed
+        
+
+speed_x = 3
+speed_y = 3
+
+player_l = Player("player_l_image.png", 100, 100 ,10, 80, 50 )
+player_r = Player("palyer_r_image.png", 100, 100, 10, 80, 50)
 
 
 
-while not exit:
-    window.blit(color)
-    if pong_x == 500 or -500:
-        game_mode = "over"
-        break
+
+
+
+
+
+while game_mode :
+    if "Finish" != True:
+        pong.rect_x += speed_x
+        pong.rect_y += speed_y
+    if sprite.collide_rect(racket1, pong):
+        sprite.collide_rect(racket2, pong):
+        speed_x *= -1
+        if pong.rect_y > win_height - 80 or pong.rect_y < 0:
+            speed_y *= -1
+        pong.update(speed_x,speed_y)
+
+
+
+    
+
+
+while exit != True:
+    for e in event.get():
+        if e == QUIT:
+            exit = True
+        
+        if sprite.collide_rect(player_l,pong) or sprite.collide:
+            pong.speed_x *= -1
+        window.blit(bg,(0, 0))
+        player_l.update_l()
+        player_l.reset()
+        player_r.update()
+        player_r.reset()
+        pong.reset()
+    else:
+        display.update()
+        clock.tick(FPS)
 
