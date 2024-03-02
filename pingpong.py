@@ -1,6 +1,7 @@
 from pygame import*
 init()
 
+Clock = time.Clock()
 
 
 class GameSprite(sprite.Sprite):
@@ -36,10 +37,9 @@ window = display.set_mode((500, 500))
 display.set_caption("pingpong")
 
 
-color(27,27,27)
 game_mode = "play"
 
-class pong(GameSprite):
+class Pong(GameSprite):
     def update(self):
         self.rect_x += self.speed
         self.rect_y += self.speed
@@ -48,10 +48,12 @@ class pong(GameSprite):
 speed_x = 3
 speed_y = 3
 
-player_l = Player("player_l_image.png", 100, 100 ,10, 80, 50 )
+player_l = Player("palyer_l_image.png", 100, 100 ,10, 80, 50 )
 player_r = Player("palyer_r_image.png", 100, 100, 10, 80, 50)
+pong = Pong("pong.png",100,100, 50,50 ,5, 5)
 
-
+win_wight = 80
+win_height = 50
 
 
 
@@ -60,34 +62,36 @@ player_r = Player("palyer_r_image.png", 100, 100, 10, 80, 50)
 
 while game_mode :
     if "Finish" != True:
-        pong.rect_x += speed_x
-        pong.rect_y += speed_y
-    if sprite.collide_rect(racket1, pong):
-        sprite.collide_rect(racket2, pong):
+        pong.rect.x += speed_x
+        pong.rect.y += speed_y
+    if sprite.collide_rect(player_l, pong):
+        sprite.collide_rect(player_r, pong)  
         speed_x *= -1
-        if pong.rect_y > win_height - 80 or pong.rect_y < 0:
+        if pong.rect_y >= win_height - 80 or pong.rect_y < 0:
             speed_y *= -1
-        pong.update(speed_x,speed_y)
-
-
-
-    
+            pong.update(speed_x,speed_y)
 
 
 while exit != True:
     for e in event.get():
-        if e == QUIT:
+        if e.type == QUIT:
+
             exit = True
-        
-        if sprite.collide_rect(player_l,pong) or sprite.collide:
-            pong.speed_x *= -1
-        window.blit(bg,(0, 0))
-        player_l.update_l()
-        player_l.reset()
-        player_r.update()
-        player_r.reset()
-        pong.reset()
-    else:
-        display.update()
-        clock.tick(FPS)
+        window.blit(color, (0, 0))
+        if finish != True:
+            if sprite.collide_rect(player_l, pong) or sprite.collide_rect(player_r, pong):
+                speed_x *= -1
+            if pong.rect_y > win_height - 80 or pong.rect.y < -50:
+                speed_y*-1
+            if pong.rect_x < 8:
+                lose = font.render('PLAYER 1 LOSE!', True, (180, 0, 0))
+                finish = True
+            if pong.rect_x > win_wight:
+                finish = True
+                lose = font.render('PLAYER 2 LOSE!', True, (180, 0, 0))
+            pong.update(speed_x, speed_y)
+            player_l.update_l()
+            player_r.update_r()
+    Clock.tick(60)
+
 
